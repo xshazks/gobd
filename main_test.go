@@ -66,9 +66,9 @@ func TestTokenEncoder(t *testing.T) {
 
 func TestInsertUserdata(t *testing.T) {
 	conn := MongoCreateConnection("MONGOSTRING", "HRMApp")
-	password, err := HashPass("rofiganteng")
+	password, err := HashPass("passcek")
 	fmt.Println("err", err)
-	data := InsertUserdata(conn, "rofi", "role", password)
+	data := InsertUserdata(conn, "Sauki", "role", password)
 	fmt.Println(data)
 }
 
