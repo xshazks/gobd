@@ -1,38 +1,54 @@
 package gobd
 
-import "time"
-
-type User struct {
-	Username string `json:"username" bson:"username"`
-	Password string `json:"password" bson:"password"`
-	Role     string `json:"role,omitempty" bson:"role,omitempty"`
+type GeometryPolygon struct {
+	Coordinates [][][]float64 `json:"coordinates" bson:"coordinates"`
+	Type        string        `json:"type" bson:"type"`
 }
 
-type Credential struct {
-	Status  bool   `json:"status" bson:"status"`
-	Token   string `json:"token,omitempty" bson:"token,omitempty"`
-	Message string `json:"message,omitempty" bson:"message,omitempty"`
+type GeometryLineString struct {
+	Coordinates [][]float64 `json:"coordinates" bson:"coordinates"`
+	Type        string      `json:"type" bson:"type"`
 }
 
-type ResponseDataUser struct {
-	Status  bool   `json:"status" bson:"status"`
-	Message string `json:"message,omitempty" bson:"message,omitempty"`
-	Data    []User `json:"data,omitempty" bson:"data,omitempty"`
+type GeometryPoint struct {
+	Coordinates []float64 `json:"coordinates" bson:"coordinates"`
+	Type        string    `json:"type" bson:"type"`
 }
 
-type Response struct {
-	Token string `json:"token,omitempty" bson:"token,omitempty"`
+type GeoJsonLineString struct {
+	Type       string             `json:"type" bson:"type"`
+	Properties Properties         `json:"properties" bson:"properties"`
+	Geometry   GeometryLineString `json:"geometry" bson:"geometry"`
 }
 
-type ResponseEncode struct {
-	Message string `json:"message,omitempty" bson:"message,omitempty"`
-	Token   string `json:"token,omitempty" bson:"token,omitempty"`
+type GeoJsonPolygon struct {
+	Type       string          `json:"type" bson:"type"`
+	Properties Properties      `json:"properties" bson:"properties"`
+	Geometry   GeometryPolygon `json:"geometry" bson:"geometry"`
 }
 
-type Payload struct {
-	User string    `json:"user"`
-	Role string    `json:"role"`
-	Exp  time.Time `json:"exp"`
-	Iat  time.Time `json:"iat"`
-	Nbf  time.Time `json:"nbf"`
+type Geometry struct {
+	Coordinates interface{} `json:"coordinates" bson:"coordinates"`
+	Type        string      `json:"type" bson:"type"`
+}
+type GeoJson struct {
+	Type       string     `json:"type" bson:"type"`
+	Properties Properties `json:"properties" bson:"properties"`
+	Geometry   Geometry   `json:"geometry" bson:"geometry"`
+}
+
+type Properties struct {
+	Name string `json:"name" bson:"name"`
+}
+
+type LonLatProperties struct {
+	Type        string    `json:"type" bson:"type"`
+	Name        string    `json:"name" bson:"name"`
+	Volume      string    `json:"volume" bson:"volume"`
+	Coordinates []float64 `json:"coordinates" bson:"coordinates"`
+}
+
+type Credents struct {
+	Status  string `json:"status" bson:"status"`
+	Message string `json:"message" bson:"message"`
 }
