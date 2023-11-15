@@ -5,9 +5,12 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"os"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"github.com/aiteung/atdb"
+	"github.com/whatsauth/watoken"
+
 )
 
 func GCHandlerFunc(Mongostring, dbname, colname string) string {
@@ -17,6 +20,32 @@ func GCHandlerFunc(Mongostring, dbname, colname string) string {
 	jsoncihuy, _ := json.Marshal(datageo)
 
 	return string(jsoncihuy)
+}
+
+func GCFPostHandler(PASETOPRIVATEKEYENV, MONGOCONNSTRINGENV, dbname, collectionname string, r *http.Request) string {
+	var Response Credential
+	Response.Status = false
+	mconn := GetConnectionMongo(MONGOCONNSTRINGENV, dbname)
+	var datauser User
+	err := json.NewDecoder(r.Body).Decode(&datauser)
+	if err != nil {
+		Response.Message = "error parsing application/json: " + err.Error()
+	} else {
+		if IsPasswordValid(mconn, collectionname, datauser) {
+			Response.Status = true
+			tokenstring, err := watoken.Encode(datauser.Username, os.Getenv(PASETOPRIVATEKEYENV))
+			if err != nil {
+				Response.Message = "Gagal Encode Token : " + err.Error()
+			} else {
+				Response.Message = "Selamat Datang"
+				Response.Token = tokenstring
+			}
+		} else {
+			Response.Message = "Password Salah"
+		}
+	}
+
+	return ReturnStringStruct(Response)
 }
 
 func InsertUser(db *mongo.Database, collection string, userdata User) string {

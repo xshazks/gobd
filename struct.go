@@ -50,7 +50,14 @@ type LonLatProperties struct {
 
 type Credents struct {
 	Status  string `json:"status" bson:"status"`
+	Token   string `json:"token,omitempty" bson:"token,omitempty"`
 	Message string `json:"message" bson:"message"`
+}
+
+type Credential struct {
+	Status  bool   `json:"status" bson:"status"`
+	Token   string `json:"token,omitempty" bson:"token,omitempty"`
+	Message string `json:"message,omitempty" bson:"message,omitempty"`
 }
 
 type User struct {

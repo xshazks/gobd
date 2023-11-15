@@ -18,6 +18,12 @@ func GetConnectionMongo(MongoString, dbname string) *mongo.Database {
 	return conn
 }
 
+func IsPasswordValid(mongoconn *mongo.Database, collection string, userdata User) bool {
+	filter := bson.M{"username": userdata.Username}
+	res := atdb.GetOneDoc[User](mongoconn, collection, filter)
+	return CheckPasswordHash(userdata.Password, res.Password)
+}
+
 func GetAllData(MongoConnect *mongo.Database, colname string) []GeoJson {
 	data := atdb.GetAllDoc[[]GeoJson](MongoConnect, colname)
 	return data
