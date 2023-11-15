@@ -5,6 +5,9 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+
+	"go.mongodb.org/mongo-driver/mongo"
+	"github.com/aiteung/atdb"
 )
 
 func GCHandlerFunc(Mongostring, dbname, colname string) string {
@@ -14,6 +17,13 @@ func GCHandlerFunc(Mongostring, dbname, colname string) string {
 	jsoncihuy, _ := json.Marshal(datageo)
 
 	return string(jsoncihuy)
+}
+
+func InsertUser(db *mongo.Database, collection string, userdata User) string {
+	hash, _ := HashPassword(userdata.Password)
+	userdata.Password = hash
+	atdb.InsertOneDoc(db, collection, userdata)
+	return "Ini username : " + userdata.Username + "ini password : " + userdata.Password
 }
 
 func GCFPostCoordinate(Mongostring, dbname, colname string, r *http.Request) string {

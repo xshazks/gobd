@@ -13,3 +13,13 @@ func TestGeneratePrivateKeyPaseto(t *testing.T) {
 	hasil, err := watoken.Encode("sawcoba", privateKey)
 	fmt.Println(hasil, err)
 }
+
+func TestInsertUser(t *testing.T) {
+	mconn := GetConnectionMongo("MONGOSTRING", "gisaw")
+	var userdata User
+	userdata.Username = "sawqi"
+	userdata.Password = "cobain"
+
+	nama := InsertUser(mconn, "user", userdata)
+	fmt.Println(nama)
+}

@@ -52,3 +52,9 @@ type Credents struct {
 	Status  string `json:"status" bson:"status"`
 	Message string `json:"message" bson:"message"`
 }
+
+type User struct {
+	Username string `json:"username" bson:"username"`
+	Password string `json:"password" bson:"password"`
+	// Email		 string             	`bson:"email,omitempty" json:"email,omitempty"`
+}
